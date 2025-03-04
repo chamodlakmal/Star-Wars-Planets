@@ -22,6 +22,8 @@ roomKtx = "2.6.1"
 roomPaging = "2.6.1"
 pagingCompose = "3.3.6"
 pager = "0.13.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -55,12 +57,15 @@ paging3-compose = { module = "androidx.paging:paging-compose", version.ref = "pa
 paging3-room = { module = "androidx.room:room-paging", version.ref = "roomPaging" }
 pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "pager" }
 indicator = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "pager" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 room = ["room-runtime", "room-ktx"]

@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Star Wars Planets"
 include(":app")
- 
+include(":local_database")
+include(":network")
+include(":planet")

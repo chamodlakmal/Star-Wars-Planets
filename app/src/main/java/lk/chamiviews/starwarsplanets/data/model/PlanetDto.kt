@@ -1,5 +1,6 @@
 package lk.chamiviews.starwarsplanets.data.model
 
-data class PlanetDto(
-
+data class PlanetDto (
+    val name: String,
+    val climate: String
 )

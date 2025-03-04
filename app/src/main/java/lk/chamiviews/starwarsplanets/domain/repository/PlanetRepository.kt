@@ -1,10 +1,8 @@
 package lk.chamiviews.starwarsplanets.domain.repository
 
-import androidx.paging.PagingData
-import kotlinx.coroutines.flow.Flow
-import lk.chamiviews.starwarsplanets.domain.model.Planet
+import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
 
 interface PlanetRepository {
-    fun getPlanets(): Flow<PagingData<Planet>>
-    suspend fun getPlanetById(id: Int): Planet?
+    suspend fun getPlanets(): Result<PlanetResponse>
+    suspend fun getNextPage(nextPageUrl: String): Result<PlanetResponse>
 }

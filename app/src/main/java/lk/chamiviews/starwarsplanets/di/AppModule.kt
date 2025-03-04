@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import lk.chamiviews.starwarsplanets.data.LocalRoomDB
 import lk.chamiviews.starwarsplanets.data.PlanetService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -30,5 +31,5 @@ object AppModule {
 
     @Provides
     fun provideDatabase(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, AppDatabase::class.java, "planets_db").build()
+        Room.databaseBuilder(context, LocalRoomDB::class.java, "planets_db").build()
 }

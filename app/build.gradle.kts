@@ -70,4 +70,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     ksp(libs.room.compiler)
     implementation(libs.bundles.room)
+    implementation(libs.bundles.paging)
 }

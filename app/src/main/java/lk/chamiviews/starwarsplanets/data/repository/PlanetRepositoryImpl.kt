@@ -1,7 +1,9 @@
 package lk.chamiviews.starwarsplanets.data.repository
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import lk.chamiviews.starwarsplanets.data.local.PlanetLocalDataSource
 import lk.chamiviews.starwarsplanets.data.mapper.toCachedPlanet
 import lk.chamiviews.starwarsplanets.data.mapper.toPlanetDto
@@ -18,7 +20,7 @@ class PlanetRepositoryImpl @Inject constructor(
 ) : PlanetRepository {
     private var currentPageUrl: String? = null
 
-    override fun getPlanets(): Flow<Result<PlanetResponse>> = flow {
+    override fun getPlanets(): Flow<Result<PlanetResponse>> = flow<Result<PlanetResponse>> {
         try {
             remoteDataSource.getPlanets().collect { response ->
                 currentPageUrl = response.next
@@ -36,8 +38,7 @@ class PlanetRepositoryImpl @Inject constructor(
                     cachedPlanets.isEmpty() -> emit(Result.failure(e))
                     else -> {
                         val cachedResponse = PlanetResponse(
-                            next = currentPageUrl,
-                            results = cachedPlanets
+                            next = currentPageUrl, results = cachedPlanets
                         )
                         emit(Result.success(cachedResponse))
                     }
@@ -47,7 +48,7 @@ class PlanetRepositoryImpl @Inject constructor(
         } catch (e: RemoteDataSourceException) {
             emit(Result.failure(e))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getNextPage(nextPageUrl: String): Flow<Result<PlanetResponse>> = flow {
         try {
@@ -69,7 +70,7 @@ class PlanetRepositoryImpl @Inject constructor(
         } catch (e: RemoteDataSourceException) {
             emit(Result.failure(e))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     private fun extractPlanetId(url: String): Int {
         return url.trimEnd('/').split("/").last().toInt()

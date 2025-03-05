@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
-import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.domain.model.Planet
 import lk.chamiviews.starwarsplanets.presentation.components.CommonTopAppBar
 import lk.chamiviews.starwarsplanets.presentation.components.ErrorMessage
 import lk.chamiviews.starwarsplanets.presentation.components.LoadingIndicator

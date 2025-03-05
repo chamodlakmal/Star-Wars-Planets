@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import lk.chamiviews.starwarsplanets.data.mapper.toPlanet
 import lk.chamiviews.starwarsplanets.domain.usecase.GetNextPageUseCase
 import lk.chamiviews.starwarsplanets.domain.usecase.GetPlanetsUseCase
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
@@ -56,7 +55,7 @@ class PlanetsViewModel @Inject constructor(
             getPlanetsUseCase().collect { result ->
                 result.onSuccess { response ->
                     _planetsState.update {
-                        PlanetsState.Success(response.results.map { it.toPlanet() })
+                        PlanetsState.Success(response.results)
                     }
                     nextPageUrl = response.next
                 }.onFailure { error ->
@@ -72,9 +71,9 @@ class PlanetsViewModel @Inject constructor(
         if (!_isLoadingMore.value && nextPageUrl != null) {
             _isLoadingMore.value = true
             viewModelScope.launch {
-                val result = getNextPageUseCase(nextPageUrl!!).collect { result ->
+                getNextPageUseCase(nextPageUrl!!).collect { result ->
                     result.onSuccess { response ->
-                        val planets = response.results.map { it.toPlanet() }
+                        val planets = response.results
                         val currentPlanets =
                             (_planetsState.value as? PlanetsState.Success)?.planets.orEmpty()
                         _planetsState.update {

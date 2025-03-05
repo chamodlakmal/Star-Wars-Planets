@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
-import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.domain.model.Planet
 import lk.chamiviews.starwarsplanets.presentation.args.PlanetDetailScreenArgs
 import lk.chamiviews.starwarsplanets.presentation.args.PlanetListScreenArgs
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetDetailsScreen
@@ -21,7 +21,6 @@ import lk.chamiviews.starwarsplanets.ui.theme.StarWarsPlanetsTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

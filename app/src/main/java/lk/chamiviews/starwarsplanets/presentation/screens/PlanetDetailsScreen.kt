@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.domain.model.Planet
 import lk.chamiviews.starwarsplanets.presentation.components.CommonImageComponent
 import lk.chamiviews.starwarsplanets.presentation.components.CommonTopAppBar
 

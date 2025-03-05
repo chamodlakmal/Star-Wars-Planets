@@ -3,8 +3,8 @@ package lk.chamiviews.starwarsplanets.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "planet")
-data class Planet(
+@Entity(tableName = "cached_planet")
+data class CachedPlanet(
     @PrimaryKey
     val id: Int = 0,
     val name: String,

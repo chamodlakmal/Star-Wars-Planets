@@ -3,7 +3,7 @@ package lk.chamiviews.starwarsplanets.data.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import lk.chamiviews.starwarsplanets.data.local.PlanetLocalDataSource
-import lk.chamiviews.starwarsplanets.data.mapper.toPlanet
+import lk.chamiviews.starwarsplanets.data.mapper.toCachedPlanet
 import lk.chamiviews.starwarsplanets.data.mapper.toPlanetDto
 import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
 import lk.chamiviews.starwarsplanets.data.remote.PlanetRemoteDataSource
@@ -21,14 +21,14 @@ class PlanetRepositoryImpl @Inject constructor(
     override fun getPlanets(): Flow<Result<PlanetResponse>> = flow {
         try {
             remoteDataSource.getPlanets().collect { response ->
-                    currentPageUrl = response.next
-                    localDataSource.savePlanets(response.results.map {
-                        it.toPlanet(
-                            extractPlanetId(it.url)
-                        )
-                    })
-                    emit(Result.success(response))
-                }
+                currentPageUrl = response.next
+                localDataSource.savePlanets(response.results.map {
+                    it.toCachedPlanet(
+                        extractPlanetId(it.url)
+                    )
+                })
+                emit(Result.success(response))
+            }
         } catch (e: NoNetworkException) {
             val cachedPlanets = localDataSource.getPlanets().map { it.toPlanetDto() }
             when {
@@ -51,16 +51,16 @@ class PlanetRepositoryImpl @Inject constructor(
     override fun getNextPage(nextPageUrl: String): Flow<Result<PlanetResponse>> = flow {
         try {
             remoteDataSource.getNextPage(nextPageUrl).collect { response ->
-                    currentPageUrl = response.next
-                    localDataSource.savePlanets(response.results.map {
-                        it.toPlanet(
-                            extractPlanetId(
-                                it.url
-                            )
+                currentPageUrl = response.next
+                localDataSource.savePlanets(response.results.map {
+                    it.toCachedPlanet(
+                        extractPlanetId(
+                            it.url
                         )
-                    })
-                    emit(Result.success(response))
-                }
+                    )
+                })
+                emit(Result.success(response))
+            }
 
 
         } catch (e: NoNetworkException) {

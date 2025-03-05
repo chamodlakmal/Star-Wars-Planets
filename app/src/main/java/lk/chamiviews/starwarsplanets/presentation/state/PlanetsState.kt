@@ -1,6 +1,6 @@
 package lk.chamiviews.starwarsplanets.presentation.state
 
-import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.domain.model.Planet
 
 sealed class PlanetsState {
     data object Loading : PlanetsState()

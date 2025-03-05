@@ -39,6 +39,23 @@ To run this application locally:
 - **Retrofit:** Type-safe HTTP client for API requests.
 - **Coroutines:** For asynchronous programming.
 
+## Folder Structure
+Star-Wars-Planets/
+│-- app/
+│   │-- src/
+│   │   │-- main/
+│   │   │   │-- java/com/example/starwarsplanets/
+│   │   │   │   │-- data/       # Handles API calls and database interactions
+│   │   │   │   │-- di/         # Hilt dependency injection setup
+│   │   │   │   │-- domain/     # Business logic and use cases
+│   │   │   │   │-- presentation/ # UI-related components, ViewModels, and navigation
+│   │   │   │   │-- utils/      # Utility classes and helpers
+│   │   │   │-- res/            # Resources such as layouts, drawables, etc.
+│   │   │-- AndroidManifest.xml # Application configuration
+│-- build.gradle.kts            # Project-level Gradle configuration
+│-- settings.gradle.kts         # Gradle settings
+│-- README.md                   # Project documentation
+
 ## Architecture
 
 This application follows the Model-View-ViewModel (MVVM) architecture:

@@ -1,12 +1,12 @@
 package lk.chamiviews.starwarsplanets.data.local
 
+import kotlinx.coroutines.flow.Flow
 import lk.chamiviews.starwarsplanets.data.model.CachedPlanet
 
 /**
  * Interface for a local data source that provides CRUD operations for managing Planet entities.
  */
 interface PlanetLocalDataSource {
-    suspend fun savePlanets(planets: List<CachedPlanet>)
-    suspend fun getPlanets(): List<CachedPlanet>
-    suspend fun getPlanetsCount(): Long
+    fun savePlanets(planets: List<CachedPlanet>)
+    fun getPlanets(): Flow<List<CachedPlanet>>
 }

@@ -30,19 +30,20 @@ class PlanetRepositoryImpl @Inject constructor(
                 emit(Result.success(response))
             }
         } catch (e: NoNetworkException) {
-            val cachedPlanets = localDataSource.getPlanets().map { it.toPlanetDto() }
-            when {
-                cachedPlanets.isEmpty() -> emit(Result.failure(e))
-                else -> {
-                    val cachedResponse = PlanetResponse(
-                        count = localDataSource.getPlanetsCount(),
-                        next = currentPageUrl,
-                        previous = null,
-                        results = cachedPlanets
-                    )
-                    emit(Result.success(cachedResponse))
+            localDataSource.getPlanets().collect { result ->
+                val cachedPlanets = result.map { it.toPlanetDto() }
+                when {
+                    cachedPlanets.isEmpty() -> emit(Result.failure(e))
+                    else -> {
+                        val cachedResponse = PlanetResponse(
+                            next = currentPageUrl,
+                            results = cachedPlanets
+                        )
+                        emit(Result.success(cachedResponse))
+                    }
                 }
             }
+
         } catch (e: RemoteDataSourceException) {
             emit(Result.failure(e))
         }

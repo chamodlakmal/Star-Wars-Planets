@@ -3,6 +3,7 @@ package lk.chamiviews.starwarsplanets.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -48,7 +49,7 @@ class PlanetsViewModel @Inject constructor(
     }
 
     private fun fetchPlanets() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _planetsState.update {
                 PlanetsState.Loading
             }
@@ -70,7 +71,7 @@ class PlanetsViewModel @Inject constructor(
     private fun loadMorePlanets() {
         if (!_isLoadingMore.value && nextPageUrl != null) {
             _isLoadingMore.value = true
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 getNextPageUseCase(nextPageUrl!!).collect { result ->
                     result.onSuccess { response ->
                         val planets = response.results

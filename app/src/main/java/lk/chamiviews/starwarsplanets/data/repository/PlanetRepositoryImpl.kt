@@ -20,7 +20,11 @@ class PlanetRepositoryImpl @Inject constructor(
         return try {
             val response = remoteDataSource.getPlanets()
             currentPageUrl = response.next
-            localDataSource.savePlanets(response.results.map { it.toPlanet() })
+            localDataSource.savePlanets(response.results.map {
+                it.toPlanet(
+                    extractPlanetId(it.url)
+                )
+            })
             Result.success(response)
         } catch (e: NoNetworkException) {
             val cachedPlanets = localDataSource.getPlanets().map { it.toPlanetDto() }
@@ -45,7 +49,7 @@ class PlanetRepositoryImpl @Inject constructor(
         return try {
             val response = remoteDataSource.getNextPage(nextPageUrl)
             currentPageUrl = response.next
-            localDataSource.savePlanets(response.results.map { it.toPlanet() })
+            localDataSource.savePlanets(response.results.map { it.toPlanet(extractPlanetId(it.url)) })
             Result.success(response)
 
         } catch (e: NoNetworkException) {
@@ -54,5 +58,10 @@ class PlanetRepositoryImpl @Inject constructor(
             Result.failure(e)
         }
     }
+
+    private fun extractPlanetId(url: String): Int {
+        return url.trimEnd('/').split("/").last().toInt()
+    }
+
 
 }

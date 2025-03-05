@@ -7,5 +7,6 @@ data class PlanetDto(
     val climate: String,
     @SerializedName("orbital_period")
     val orbitalPeriod: String,
-    val gravity: String
+    val gravity: String,
+    val url: String = ""
 )

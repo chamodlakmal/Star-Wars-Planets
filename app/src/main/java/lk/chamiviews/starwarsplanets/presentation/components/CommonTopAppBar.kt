@@ -32,6 +32,6 @@ fun CommonTopAppBar(title: String, showIcon: Boolean = false, onClick: () -> Uni
 
 @Preview(showBackground = true)
 @Composable
-fun CommonTopAppBarPreview() {
+private fun CommonTopAppBarPreview() {
     CommonTopAppBar(title = "Preview", onClick = {})
 }

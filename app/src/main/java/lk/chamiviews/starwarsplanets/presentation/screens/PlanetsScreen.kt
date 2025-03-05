@@ -24,9 +24,9 @@ import lk.chamiviews.starwarsplanets.presentation.components.ErrorMessage
 import lk.chamiviews.starwarsplanets.presentation.components.LoadingIndicator
 import lk.chamiviews.starwarsplanets.presentation.components.PlanetItem
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
+import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 import lk.chamiviews.starwarsplanets.utils.LoadMoreStrategy
 import lk.chamiviews.starwarsplanets.utils.LoadMoreStrategyImpl
-import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 
 @Composable
 fun PlanetsScreen(
@@ -108,11 +108,11 @@ fun PlanetsList(
 //    }
     LaunchedEffect(listState) {
         snapshotFlow { listState.layoutInfo }.collectLatest { layoutInfo ->
-                val shouldLoadMore = loadMoreStrategy.shouldLoadMore(layoutInfo)
-                if (shouldLoadMore) {
-                    onEvent(PlanetEvent.LoadMorePlanets)
-                }
+            val shouldLoadMore = loadMoreStrategy.shouldLoadMore(layoutInfo)
+            if (shouldLoadMore) {
+                onEvent(PlanetEvent.LoadMorePlanets)
             }
+        }
     }
 }
 
@@ -120,23 +120,24 @@ fun PlanetsList(
 @Composable
 @Preview(showBackground = true)
 private fun PlanetsScreenPreview() {
-    PlanetsScreen(planetsState = PlanetsState.Success(
-        planets = listOf(
-            Planet(
-                name = "Earth",
-                climate = "Temperate",
-                orbitalPeriod = "43",
-                gravity = "1 standard"
-            ), Planet(
-                name = "Mars", climate = "Arid", orbitalPeriod = "43", gravity = "1 standard"
-            ), Planet(
-                name = "Jupiter",
-                climate = "Gas Giant",
-                orbitalPeriod = "43",
-                gravity = "1 standard"
+    PlanetsScreen(
+        planetsState = PlanetsState.Success(
+            planets = listOf(
+                Planet(
+                    name = "Earth",
+                    climate = "Temperate",
+                    orbitalPeriod = "43",
+                    gravity = "1 standard"
+                ), Planet(
+                    name = "Mars", climate = "Arid", orbitalPeriod = "43", gravity = "1 standard"
+                ), Planet(
+                    name = "Jupiter",
+                    climate = "Gas Giant",
+                    orbitalPeriod = "43",
+                    gravity = "1 standard"
+                )
             )
-        )
-    ),
+        ),
         isLoadingMore = false,
         loadMoreStrategy = LoadMoreStrategyImpl(),
         onEvent = {},

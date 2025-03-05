@@ -41,6 +41,6 @@ fun ErrorMessage(
 
 @Preview(showBackground = true)
 @Composable
-fun ErrorMessagePreview() {
+private fun ErrorMessagePreview() {
     ErrorMessage(message = "Error message", onEvent = {})
 }

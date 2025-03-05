@@ -46,7 +46,7 @@ fun PlanetDetailsScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun PlanetDetailScreenPreview() {
+private fun PlanetDetailScreenPreview() {
     PlanetDetailsScreen(
         planet = Planet(
             name = "Earth",

@@ -1,10 +1,10 @@
 package lk.chamiviews.starwarsplanets.data.remote
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
-import lk.chamiviews.starwarsplanets.data.remote.PlanetApi
-import lk.chamiviews.starwarsplanets.data.remote.PlanetRemoteDataSource
 import lk.chamiviews.starwarsplanets.utils.NoNetworkException
 import lk.chamiviews.starwarsplanets.utils.RemoteDataSourceException
 import java.io.IOException
@@ -19,7 +19,7 @@ class PlanetRemoteDataSourceImpl @Inject constructor(
         } catch (e: Exception) {
             throw getRemoteException(e)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     override fun getNextPage(nextPageUrl: String): Flow<PlanetResponse> = flow {
         try {
@@ -27,7 +27,7 @@ class PlanetRemoteDataSourceImpl @Inject constructor(
         } catch (e: Exception) {
             throw getRemoteException(e)
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
     private fun getRemoteException(e: Exception): Exception {
         return when (e) {

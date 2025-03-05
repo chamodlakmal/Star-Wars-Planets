@@ -65,4 +65,8 @@ dependencies {
     kapt(libs.room.compiler)
     implementation(libs.bundles.room)
     testImplementation(libs.bundles.mockK)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.coroutine.test)
+    testImplementation(kotlin("test"))
 }

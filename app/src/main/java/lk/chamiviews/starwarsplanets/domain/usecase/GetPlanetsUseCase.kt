@@ -2,7 +2,6 @@ package lk.chamiviews.starwarsplanets.domain.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import lk.chamiviews.starwarsplanets.domain.model.PlanetPageData
 import lk.chamiviews.starwarsplanets.domain.model.toPlanetPageData
 import lk.chamiviews.starwarsplanets.domain.repository.PlanetRepository

@@ -26,7 +26,7 @@ import lk.chamiviews.starwarsplanets.presentation.components.ErrorMessage
 import lk.chamiviews.starwarsplanets.presentation.components.LoadingIndicator
 import lk.chamiviews.starwarsplanets.presentation.components.PlanetItem
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
-import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.DefaultLoadMoreStrategy
+import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategyImpl
 import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategy
 import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 
@@ -36,7 +36,7 @@ import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 fun PlanetsScreen(
     planetsState: PlanetsState,
     isLoadingMore: Boolean,
-    loadMoreStrategy: LoadMoreStrategy = DefaultLoadMoreStrategy(),
+    loadMoreStrategy: LoadMoreStrategy = LoadMoreStrategyImpl(),
     onEvent: (PlanetEvent) -> Unit,
     navigateToPlanetDetails: (Planet) -> Unit
 ) {
@@ -77,7 +77,7 @@ fun PlanetsList(
     onPlanetSelected: (Planet) -> Unit,
     onEvent: (PlanetEvent) -> Unit,
     isLoadingMore: Boolean,
-    loadMoreStrategy: LoadMoreStrategy = DefaultLoadMoreStrategy()
+    loadMoreStrategy: LoadMoreStrategy = LoadMoreStrategyImpl()
 ) {
 
     // Remembers the lazy list state to track the scroll position and load more items when needed
@@ -137,7 +137,7 @@ private fun PlanetsScreenPreview() {
             )
         ),
         isLoadingMore = false,
-        loadMoreStrategy = DefaultLoadMoreStrategy(),
+        loadMoreStrategy = LoadMoreStrategyImpl(),
         onEvent = {},
         navigateToPlanetDetails = {}
     )

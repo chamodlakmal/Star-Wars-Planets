@@ -32,12 +32,12 @@ class PlanetsViewModel @Inject constructor(
 
     private var nextPageUrl: String? = null
 
-    init {
-        fetchPlanets()
-    }
-
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         handleError(exception)
+    }
+
+    init {
+        fetchPlanets()
     }
 
     fun planetEvent(event: PlanetEvent) {

@@ -1,5 +1,7 @@
 package lk.chamiviews.starwarsplanets.data.repository
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import lk.chamiviews.starwarsplanets.data.local.PlanetLocalDataSource
 import lk.chamiviews.starwarsplanets.data.mapper.toPlanet
 import lk.chamiviews.starwarsplanets.data.mapper.toPlanetDto
@@ -16,20 +18,21 @@ class PlanetRepositoryImpl @Inject constructor(
 ) : PlanetRepository {
     private var currentPageUrl: String? = null
 
-    override suspend fun getPlanets(): Result<PlanetResponse> {
-        return try {
-            val response = remoteDataSource.getPlanets()
-            currentPageUrl = response.next
-            localDataSource.savePlanets(response.results.map {
-                it.toPlanet(
-                    extractPlanetId(it.url)
-                )
-            })
-            Result.success(response)
+    override fun getPlanets(): Flow<Result<PlanetResponse>> = flow {
+        try {
+            remoteDataSource.getPlanets().collect { response ->
+                    currentPageUrl = response.next
+                    localDataSource.savePlanets(response.results.map {
+                        it.toPlanet(
+                            extractPlanetId(it.url)
+                        )
+                    })
+                    emit(Result.success(response))
+                }
         } catch (e: NoNetworkException) {
             val cachedPlanets = localDataSource.getPlanets().map { it.toPlanetDto() }
             when {
-                cachedPlanets.isEmpty() -> Result.failure(e)
+                cachedPlanets.isEmpty() -> emit(Result.failure(e))
                 else -> {
                     val cachedResponse = PlanetResponse(
                         count = localDataSource.getPlanetsCount(),
@@ -37,25 +40,33 @@ class PlanetRepositoryImpl @Inject constructor(
                         previous = null,
                         results = cachedPlanets
                     )
-                    Result.success(cachedResponse)
+                    emit(Result.success(cachedResponse))
                 }
             }
         } catch (e: RemoteDataSourceException) {
-            Result.failure(e)
+            emit(Result.failure(e))
         }
     }
 
-    override suspend fun getNextPage(nextPageUrl: String): Result<PlanetResponse> {
-        return try {
-            val response = remoteDataSource.getNextPage(nextPageUrl)
-            currentPageUrl = response.next
-            localDataSource.savePlanets(response.results.map { it.toPlanet(extractPlanetId(it.url)) })
-            Result.success(response)
+    override fun getNextPage(nextPageUrl: String): Flow<Result<PlanetResponse>> = flow {
+        try {
+            remoteDataSource.getNextPage(nextPageUrl).collect { response ->
+                    currentPageUrl = response.next
+                    localDataSource.savePlanets(response.results.map {
+                        it.toPlanet(
+                            extractPlanetId(
+                                it.url
+                            )
+                        )
+                    })
+                    emit(Result.success(response))
+                }
+
 
         } catch (e: NoNetworkException) {
-            Result.failure(e)
+            emit(Result.failure(e))
         } catch (e: RemoteDataSourceException) {
-            Result.failure(e)
+            emit(Result.failure(e))
         }
     }
 

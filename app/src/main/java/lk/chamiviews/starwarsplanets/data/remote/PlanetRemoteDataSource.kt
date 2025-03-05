@@ -1,10 +1,11 @@
 package lk.chamiviews.starwarsplanets.data.remote
 
+import kotlinx.coroutines.flow.Flow
 import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
 
 interface PlanetRemoteDataSource {
 
-    suspend fun getPlanets(): PlanetResponse
+    fun getPlanets(): Flow<PlanetResponse>
 
-    suspend fun getNextPage(nextPageUrl: String): PlanetResponse
+    fun getNextPage(nextPageUrl: String): Flow<PlanetResponse>
 }

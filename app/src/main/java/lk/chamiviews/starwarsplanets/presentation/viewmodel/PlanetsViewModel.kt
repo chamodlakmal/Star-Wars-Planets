@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import lk.chamiviews.starwarsplanets.data.mapper.toPlanet
-import lk.chamiviews.starwarsplanets.data.model.Planet
 import lk.chamiviews.starwarsplanets.domain.usecase.GetNextPageUseCase
 import lk.chamiviews.starwarsplanets.domain.usecase.GetPlanetsUseCase
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
@@ -27,9 +26,6 @@ class PlanetsViewModel @Inject constructor(
 
     private val _planetsState = MutableStateFlow<PlanetsState>(PlanetsState.Loading)
     val planetsState = _planetsState.asStateFlow()
-
-    private val _selectedPlanet = MutableStateFlow<Planet?>(null)
-    val selectedPlanet: StateFlow<Planet?> = _selectedPlanet.asStateFlow()
 
     private val _isLoadingMore = MutableStateFlow(false)
     val isLoadingMore: StateFlow<Boolean> = _isLoadingMore.asStateFlow()
@@ -57,15 +53,17 @@ class PlanetsViewModel @Inject constructor(
             _planetsState.update {
                 PlanetsState.Loading
             }
-            val result = getPlanetsUseCase()
-            result.onSuccess { response ->
-                _planetsState.update {
-                    PlanetsState.Success(response.results.map { it.toPlanet() })
+            getPlanetsUseCase().collect { result ->
+                result.onSuccess { response ->
+                    _planetsState.update {
+                        PlanetsState.Success(response.results.map { it.toPlanet() })
+                    }
+                    nextPageUrl = response.next
+                }.onFailure { error ->
+                    handleError(error)
                 }
-                nextPageUrl = response.next
-            }.onFailure { error ->
-                handleError(error)
             }
+
         }
     }
 
@@ -74,19 +72,21 @@ class PlanetsViewModel @Inject constructor(
         if (!_isLoadingMore.value && nextPageUrl != null) {
             _isLoadingMore.value = true
             viewModelScope.launch {
-                val result = getNextPageUseCase(nextPageUrl!!)
-                result.onSuccess { response ->
-                    val planets = response.results.map { it.toPlanet() }
-                    val currentPlanets =
-                        (_planetsState.value as? PlanetsState.Success)?.planets.orEmpty()
-                    _planetsState.update {
-                        PlanetsState.Success(currentPlanets + planets)
+                val result = getNextPageUseCase(nextPageUrl!!).collect { result ->
+                    result.onSuccess { response ->
+                        val planets = response.results.map { it.toPlanet() }
+                        val currentPlanets =
+                            (_planetsState.value as? PlanetsState.Success)?.planets.orEmpty()
+                        _planetsState.update {
+                            PlanetsState.Success(currentPlanets + planets)
+                        }
+                        nextPageUrl = response.next
+                    }.onFailure { error ->
+                        handleError(error)
                     }
-                    nextPageUrl = response.next
-                }.onFailure { error ->
-                    handleError(error)
+                    _isLoadingMore.value = false
                 }
-                _isLoadingMore.value = false
+
             }
         }
     }

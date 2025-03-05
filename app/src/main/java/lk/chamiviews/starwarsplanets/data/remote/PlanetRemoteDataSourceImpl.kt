@@ -1,5 +1,7 @@
 package lk.chamiviews.starwarsplanets.data.remote
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
 import lk.chamiviews.starwarsplanets.data.remote.PlanetApi
 import lk.chamiviews.starwarsplanets.data.remote.PlanetRemoteDataSource
@@ -11,17 +13,17 @@ import javax.inject.Inject
 class PlanetRemoteDataSourceImpl @Inject constructor(
     private val planetApi: PlanetApi
 ) : PlanetRemoteDataSource {
-    override suspend fun getPlanets(): PlanetResponse {
+    override fun getPlanets(): Flow<PlanetResponse> = flow {
         try {
-            return planetApi.getPlanets()
+            emit(planetApi.getPlanets())
         } catch (e: Exception) {
             throw getRemoteException(e)
         }
     }
 
-    override suspend fun getNextPage(nextPageUrl: String): PlanetResponse {
+    override fun getNextPage(nextPageUrl: String): Flow<PlanetResponse> = flow {
         try {
-            return planetApi.getNextPage(nextPageUrl)
+            emit(planetApi.getNextPage(nextPageUrl))
         } catch (e: Exception) {
             throw getRemoteException(e)
         }

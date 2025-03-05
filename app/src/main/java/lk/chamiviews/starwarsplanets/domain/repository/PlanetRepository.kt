@@ -1,8 +1,9 @@
 package lk.chamiviews.starwarsplanets.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import lk.chamiviews.starwarsplanets.data.model.PlanetResponse
 
 interface PlanetRepository {
-    suspend fun getPlanets(): Result<PlanetResponse>
-    suspend fun getNextPage(nextPageUrl: String): Result<PlanetResponse>
+    fun getPlanets(): Flow<Result<PlanetResponse>>
+    fun getNextPage(nextPageUrl: String): Flow<Result<PlanetResponse>>
 }

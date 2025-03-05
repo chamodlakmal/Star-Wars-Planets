@@ -138,6 +138,7 @@ private fun PlanetsScreenPreview() {
         ),
         isLoadingMore = false,
         loadMoreStrategy = DefaultLoadMoreStrategy(),
-        onEvent = {}
+        onEvent = {},
+        navigateToPlanetDetails = {}
     )
 }

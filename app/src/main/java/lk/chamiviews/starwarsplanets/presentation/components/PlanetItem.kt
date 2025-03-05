@@ -41,7 +41,7 @@ fun PlanetItem(
                 contentDescription = "planet image",
                 modifier = Modifier
                     .height(200.dp)
-                    .width(300.dp),
+                    .fillMaxWidth(),
                 contentScale = ContentScale.Crop
             )
             Text(

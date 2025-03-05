@@ -3,6 +3,7 @@ package lk.chamiviews.starwarsplanets.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,6 @@ import lk.chamiviews.starwarsplanets.domain.usecase.GetNextPageUseCase
 import lk.chamiviews.starwarsplanets.domain.usecase.GetPlanetsUseCase
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
 import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
-import lk.chamiviews.starwarsplanets.utils.NoMorePagesException
 import lk.chamiviews.starwarsplanets.utils.NoNetworkException
 import lk.chamiviews.starwarsplanets.utils.RemoteDataSourceException
 import javax.inject.Inject
@@ -36,6 +36,10 @@ class PlanetsViewModel @Inject constructor(
         fetchPlanets()
     }
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        handleError(exception)
+    }
+
     fun planetEvent(event: PlanetEvent) {
         when (event) {
             PlanetEvent.LoadMorePlanets -> {
@@ -49,7 +53,7 @@ class PlanetsViewModel @Inject constructor(
     }
 
     private fun fetchPlanets() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
             _planetsState.update {
                 PlanetsState.Loading
             }
@@ -71,7 +75,7 @@ class PlanetsViewModel @Inject constructor(
     private fun loadMorePlanets() {
         if (!_isLoadingMore.value && nextPageUrl != null) {
             _isLoadingMore.value = true
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
                 getNextPageUseCase(nextPageUrl!!).collect { result ->
                     result.onSuccess { response ->
                         val planets = response.results
@@ -98,9 +102,8 @@ class PlanetsViewModel @Inject constructor(
                     error.message ?: "No network connection available"
                 )
 
-                is NoMorePagesException -> PlanetsState.Error("No more pages available")
-                is RemoteDataSourceException -> PlanetsState.Error(error.message ?: "Unknown error")
-                else -> PlanetsState.Error("Unknown error")
+                is RemoteDataSourceException -> PlanetsState.Error(error.localizedMessage ?: "Unknown error")
+                else -> PlanetsState.Error(error.localizedMessage ?: "")
             }
         }
     }

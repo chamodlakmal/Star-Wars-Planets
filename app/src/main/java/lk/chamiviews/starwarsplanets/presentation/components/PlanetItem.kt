@@ -33,7 +33,7 @@ fun PlanetItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CommonImageComponent(
-                url =  "https://picsum.photos/200/300",
+                url = "https://picsum.photos/200/300",
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()
@@ -45,7 +45,7 @@ fun PlanetItem(
                     .padding(top = 4.dp)
                     .fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Climate: ${planet.climate}",
                 style = MaterialTheme.typography.bodySmall,

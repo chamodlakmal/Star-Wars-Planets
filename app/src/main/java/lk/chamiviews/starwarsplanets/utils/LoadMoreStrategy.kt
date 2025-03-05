@@ -1,4 +1,4 @@
-package lk.chamiviews.starwarsplanets.presentation.loadmore.strategy
+package lk.chamiviews.starwarsplanets.utils
 
 import androidx.compose.foundation.lazy.LazyListLayoutInfo
 

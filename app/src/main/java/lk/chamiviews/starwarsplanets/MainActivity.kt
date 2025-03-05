@@ -12,8 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import lk.chamiviews.starwarsplanets.domain.model.Planet
-import lk.chamiviews.starwarsplanets.presentation.args.PlanetDetailScreenArgs
-import lk.chamiviews.starwarsplanets.presentation.args.PlanetListScreenArgs
+import lk.chamiviews.starwarsplanets.presentation.route.args.PlanetDetailScreenArgs
+import lk.chamiviews.starwarsplanets.presentation.route.args.PlanetListScreenArgs
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetDetailsScreen
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetsScreen
 import lk.chamiviews.starwarsplanets.presentation.viewmodel.PlanetsViewModel

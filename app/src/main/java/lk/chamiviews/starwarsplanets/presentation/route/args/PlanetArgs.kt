@@ -1,4 +1,4 @@
-package lk.chamiviews.starwarsplanets.presentation.args
+package lk.chamiviews.starwarsplanets.presentation.route.args
 
 import kotlinx.serialization.Serializable
 

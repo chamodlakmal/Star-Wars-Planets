@@ -24,8 +24,8 @@ import lk.chamiviews.starwarsplanets.presentation.components.ErrorMessage
 import lk.chamiviews.starwarsplanets.presentation.components.LoadingIndicator
 import lk.chamiviews.starwarsplanets.presentation.components.PlanetItem
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
-import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategy
-import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategyImpl
+import lk.chamiviews.starwarsplanets.utils.LoadMoreStrategy
+import lk.chamiviews.starwarsplanets.utils.LoadMoreStrategyImpl
 import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 
 @Composable

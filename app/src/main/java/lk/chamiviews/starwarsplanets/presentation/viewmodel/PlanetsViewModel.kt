@@ -18,28 +18,35 @@ import lk.chamiviews.starwarsplanets.utils.NoNetworkException
 import lk.chamiviews.starwarsplanets.utils.RemoteDataSourceException
 import javax.inject.Inject
 
+// ViewModel responsible for managing the state of planets in the app
 @HiltViewModel
 class PlanetsViewModel @Inject constructor(
     private val getPlanetsUseCase: GetPlanetsUseCase,
     private val getNextPageUseCase: GetNextPageUseCase
 ) : ViewModel() {
 
+    // Mutable state to hold the planets' UI state (e.g., loading, success, error)
     private val _planetsState = MutableStateFlow<PlanetsState>(PlanetsState.Loading)
     val planetsState = _planetsState.asStateFlow()
 
+    // Mutable state to manage loading status of next page
     private val _isLoadingMore = MutableStateFlow(false)
     val isLoadingMore: StateFlow<Boolean> = _isLoadingMore.asStateFlow()
 
+    // Holds the URL for the next page of results
     private var nextPageUrl: String? = null
 
+    // CoroutineExceptionHandler to handle exceptions in coroutines
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
         handleError(exception)
     }
 
+    // Initialization: fetch the initial list of planets when the ViewModel is created
     init {
         fetchPlanets()
     }
 
+    // This function listens for events (e.g., load more planets, fetch planets)
     fun planetEvent(event: PlanetEvent) {
         when (event) {
             PlanetEvent.LoadMorePlanets -> {

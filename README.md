@@ -75,10 +75,6 @@ This application follows the Model-View-ViewModel (MVVM) architecture:
 - **View:** UI components built using Jetpack Compose.
 - **ViewModel:** Manages UI-related data and handles user interactions.
 
-## License
-
-This project is licensed under the MIT License.
-
 ## Acknowledgements
 
 - The SWAPI API team for providing comprehensive data on the Star Wars universe.

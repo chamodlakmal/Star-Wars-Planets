@@ -18,7 +18,7 @@ A modern Android application developed using Kotlin and Jetpack Compose, designe
 
 To run this application locally:
 
-1. **Clone the Repository:** git clone https://github.com/chamodlakmal/Star-Wars-Planets.git
+1. **Clone the Repository:** ```git clone https://github.com/chamodlakmal/Star-Wars-Planets.git```
 2. **Navigate to the Project Directory:**
 3. **Open with Android Studio:**
 - Launch Android Studio.
@@ -27,7 +27,7 @@ To run this application locally:
 - Allow Android Studio to synchronize and build the project. Ensure all dependencies are resolved.
 5. **Run the App:**
 - Connect an Android device or start an emulator.
-- Click on the 'Run' button or use the shortcut `Shift + F10`.
+- Click on the 'Run' button.
 
 ## Dependencies
 

@@ -24,7 +24,7 @@ fun PlanetDetailsScreen(
 ) {
     Scaffold(
         topBar = {
-            CommonTopAppBar(title = planet.name, onClick = onBackPressed)
+            CommonTopAppBar(title = planet.name, onClick = onBackPressed, showIcon = true)
         }
     ) { padding ->
         Column(

@@ -14,15 +14,17 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommonTopAppBar(title: String, onClick: () -> Unit = {}) {
+fun CommonTopAppBar(title: String, showIcon: Boolean = false, onClick: () -> Unit = {}) {
     Surface(shadowElevation = 4.dp) {
         TopAppBar(title = {
             Text(
                 text = title
             )
         }, navigationIcon = {
-            IconButton(onClick = onClick) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+            if (showIcon) {
+                IconButton(onClick = onClick) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
             }
         })
     }

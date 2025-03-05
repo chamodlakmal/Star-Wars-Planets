@@ -33,7 +33,7 @@ fun PlanetItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CommonImageComponent(
-                url = "https://picsum.photos/200/300",
+                url = "https://picsum.photos/640/480",
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()

@@ -36,13 +36,11 @@ fun PlanetsScreen(
     onEvent: (PlanetEvent) -> Unit,
     navigateToPlanetDetails: (Planet) -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            CommonTopAppBar(
-                title = "Star Wars Planet"
-            )
-        }
-    ) { padding ->
+    Scaffold(topBar = {
+        CommonTopAppBar(
+            title = "Star Wars Planet"
+        )
+    }) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,13 +52,12 @@ fun PlanetsScreen(
                     planets = (planetsState).planets,
                     onPlanetSelected = { planet: Planet -> navigateToPlanetDetails(planet) },
                     onEvent = onEvent,
-                    loadMoreStrategy = loadMoreStrategy,
-                    isLoadingMore = isLoadingMore
+                    isLoadingMore = isLoadingMore,
+                    loadMoreStrategy = loadMoreStrategy
                 )
 
                 is PlanetsState.Error -> ErrorMessage(
-                    message = (planetsState).errorMessage,
-                    onEvent = onEvent
+                    message = (planetsState).errorMessage, onEvent = onEvent
                 )
             }
         }
@@ -106,12 +103,11 @@ fun PlanetsList(
 //    }
 //    LaunchedEffect(shouldLoadMore) {
 //        if (shouldLoadMore) {
-//            onLoadMore()
+//            onEvent(PlanetEvent.LoadMorePlanets)
 //        }
 //    }
     LaunchedEffect(listState) {
-        snapshotFlow { listState.layoutInfo }
-            .collectLatest { layoutInfo ->
+        snapshotFlow { listState.layoutInfo }.collectLatest { layoutInfo ->
                 val shouldLoadMore = loadMoreStrategy.shouldLoadMore(layoutInfo)
                 if (shouldLoadMore) {
                     onEvent(PlanetEvent.LoadMorePlanets)
@@ -124,32 +120,25 @@ fun PlanetsList(
 @Composable
 @Preview(showBackground = true)
 private fun PlanetsScreenPreview() {
-    PlanetsScreen(
-        planetsState = PlanetsState.Success(
-            planets = listOf(
-                Planet(
-                    name = "Earth",
-                    climate = "Temperate",
-                    orbitalPeriod = "43",
-                    gravity = "1 standard"
-                ),
-                Planet(
-                    name = "Mars",
-                    climate = "Arid",
-                    orbitalPeriod = "43",
-                    gravity = "1 standard"
-                ),
-                Planet(
-                    name = "Jupiter",
-                    climate = "Gas Giant",
-                    orbitalPeriod = "43",
-                    gravity = "1 standard"
-                )
+    PlanetsScreen(planetsState = PlanetsState.Success(
+        planets = listOf(
+            Planet(
+                name = "Earth",
+                climate = "Temperate",
+                orbitalPeriod = "43",
+                gravity = "1 standard"
+            ), Planet(
+                name = "Mars", climate = "Arid", orbitalPeriod = "43", gravity = "1 standard"
+            ), Planet(
+                name = "Jupiter",
+                climate = "Gas Giant",
+                orbitalPeriod = "43",
+                gravity = "1 standard"
             )
-        ),
+        )
+    ),
         isLoadingMore = false,
         loadMoreStrategy = LoadMoreStrategyImpl(),
         onEvent = {},
-        navigateToPlanetDetails = {}
-    )
+        navigateToPlanetDetails = {})
 }

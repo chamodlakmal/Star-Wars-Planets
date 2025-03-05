@@ -12,6 +12,7 @@ import lk.chamiviews.starwarsplanets.data.mapper.toPlanet
 import lk.chamiviews.starwarsplanets.data.model.Planet
 import lk.chamiviews.starwarsplanets.domain.usecase.GetNextPageUseCase
 import lk.chamiviews.starwarsplanets.domain.usecase.GetPlanetsUseCase
+import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
 import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 import lk.chamiviews.starwarsplanets.utils.NoMorePagesException
 import lk.chamiviews.starwarsplanets.utils.NoNetworkException
@@ -33,13 +34,25 @@ class PlanetsViewModel @Inject constructor(
     private val _isLoadingMore = MutableStateFlow(false)
     val isLoadingMore: StateFlow<Boolean> = _isLoadingMore.asStateFlow()
 
-    var nextPageUrl: String? = null
+    private var nextPageUrl: String? = null
 
     init {
         fetchPlanets()
     }
 
-    fun fetchPlanets() {
+    fun planetEvent(event: PlanetEvent) {
+        when (event) {
+            PlanetEvent.LoadMorePlanets -> {
+                loadMorePlanets()
+            }
+
+            PlanetEvent.FetchPlanets -> {
+                fetchPlanets()
+            }
+        }
+    }
+
+    private fun fetchPlanets() {
         viewModelScope.launch {
             _planetsState.update {
                 PlanetsState.Loading
@@ -57,7 +70,7 @@ class PlanetsViewModel @Inject constructor(
     }
 
 
-    fun loadMorePlanets() {
+    private fun loadMorePlanets() {
         if (!_isLoadingMore.value && nextPageUrl != null) {
             _isLoadingMore.value = true
             viewModelScope.launch {
@@ -75,16 +88,6 @@ class PlanetsViewModel @Inject constructor(
                 }
                 _isLoadingMore.value = false
             }
-        }
-    }
-
-    fun onPlanetSelected(planet: Planet) {
-        _selectedPlanet.value = planet
-    }
-
-    fun onPlanetDetailsDismissed() {
-        viewModelScope.launch {
-            _selectedPlanet.emit(null)
         }
     }
 

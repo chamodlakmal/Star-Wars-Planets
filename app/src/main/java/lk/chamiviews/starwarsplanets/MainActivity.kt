@@ -3,20 +3,64 @@ package lk.chamiviews.starwarsplanets
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
+import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.presentation.args.PlanetDetailScreenArgs
+import lk.chamiviews.starwarsplanets.presentation.args.PlanetListScreenArgs
+import lk.chamiviews.starwarsplanets.presentation.screens.PlanetDetailsScreen
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetsScreen
 import lk.chamiviews.starwarsplanets.presentation.viewmodel.PlanetsViewModel
 import lk.chamiviews.starwarsplanets.ui.theme.StarWarsPlanetsTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    val planetsViewModel: PlanetsViewModel by viewModels()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             StarWarsPlanetsTheme {
-                PlanetsScreen(planetsViewModel)
+                val planetsViewModel: PlanetsViewModel = hiltViewModel()
+                val navController = rememberNavController()
+                val planetsState by planetsViewModel.planetsState.collectAsState()
+                val isLoadingMore by planetsViewModel.isLoadingMore.collectAsState()
+                NavHost(
+                    navController = navController, startDestination = PlanetListScreenArgs
+                ) {
+                    composable<PlanetListScreenArgs> {
+                        PlanetsScreen(
+                            planetsState = planetsState,
+                            isLoadingMore = isLoadingMore,
+                            onEvent = planetsViewModel::planetEvent,
+                            navigateToPlanetDetails = {
+                                navController.navigate(
+                                    PlanetDetailScreenArgs(
+                                        name = it.name,
+                                        climate = it.climate
+                                    )
+                                )
+                            }
+                        )
+                    }
+                    composable<PlanetDetailScreenArgs> {
+                        val args = it.toRoute<PlanetDetailScreenArgs>()
+                        PlanetDetailsScreen(
+                            planet = Planet(
+                                name = args.name,
+                                climate = args.climate
+                            ), onBackPressed = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                }
             }
         }
     }

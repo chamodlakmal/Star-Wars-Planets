@@ -44,7 +44,7 @@ Star-Wars-Planets/
 │-- app/
 │   │-- src/
 │   │   │-- main/
-│   │   │   │-- java/com/example/starwarsplanets/
+│   │   │   │-- java/lk/chamiviews/starwarsplanets/
 │   │   │   │   │-- data/       # Handles API calls and database interactions
 │   │   │   │   │-- di/         # Hilt dependency injection setup
 │   │   │   │   │-- domain/     # Business logic and use cases

@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
@@ -22,16 +19,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.collectLatest
 import lk.chamiviews.starwarsplanets.data.model.Planet
+import lk.chamiviews.starwarsplanets.presentation.components.CommonTopAppBar
 import lk.chamiviews.starwarsplanets.presentation.components.ErrorMessage
 import lk.chamiviews.starwarsplanets.presentation.components.LoadingIndicator
 import lk.chamiviews.starwarsplanets.presentation.components.PlanetItem
 import lk.chamiviews.starwarsplanets.presentation.event.PlanetEvent
-import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategyImpl
 import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategy
+import lk.chamiviews.starwarsplanets.presentation.loadmore.strategy.LoadMoreStrategyImpl
 import lk.chamiviews.starwarsplanets.presentation.state.PlanetsState
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlanetsScreen(
     planetsState: PlanetsState,
@@ -42,8 +38,8 @@ fun PlanetsScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Star Wars Planet") }
+            CommonTopAppBar(
+                title = "Star Wars Planet"
             )
         }
     ) { padding ->
@@ -131,9 +127,24 @@ private fun PlanetsScreenPreview() {
     PlanetsScreen(
         planetsState = PlanetsState.Success(
             planets = listOf(
-                Planet(name = "Earth", climate = "Temperate"),
-                Planet(name = "Mars", climate = "Arid"),
-                Planet(name = "Jupiter", climate = "Gas Giant")
+                Planet(
+                    name = "Earth",
+                    climate = "Temperate",
+                    orbitalPeriod = "43",
+                    gravity = "1 standard"
+                ),
+                Planet(
+                    name = "Mars",
+                    climate = "Arid",
+                    orbitalPeriod = "43",
+                    gravity = "1 standard"
+                ),
+                Planet(
+                    name = "Jupiter",
+                    climate = "Gas Giant",
+                    orbitalPeriod = "43",
+                    gravity = "1 standard"
+                )
             )
         ),
         isLoadingMore = false,

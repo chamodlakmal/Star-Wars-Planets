@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommonTopAppBar(title: String, onClick: () -> Unit) {
+fun CommonTopAppBar(title: String, onClick: () -> Unit = {}) {
     Surface(shadowElevation = 4.dp) {
         TopAppBar(title = {
             Text(

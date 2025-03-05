@@ -43,6 +43,8 @@ class MainActivity : ComponentActivity() {
                                 navController.navigate(
                                     PlanetDetailScreenArgs(
                                         name = it.name,
+                                        orbitalPeriod = it.orbitalPeriod,
+                                        gravity = it.gravity,
                                         climate = it.climate
                                     )
                                 )
@@ -54,6 +56,8 @@ class MainActivity : ComponentActivity() {
                         PlanetDetailsScreen(
                             planet = Planet(
                                 name = args.name,
+                                orbitalPeriod = args.orbitalPeriod,
+                                gravity = args.gravity,
                                 climate = args.climate
                             ), onBackPressed = {
                                 navController.popBackStack()

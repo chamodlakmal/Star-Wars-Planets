@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,15 +37,19 @@ fun PlanetItem(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = "https://picsum.photos/200",
+                model = "https://picsum.photos/200/300",
                 contentDescription = "planet image",
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(300.dp),
                 contentScale = ContentScale.Crop
             )
             Text(
                 text = planet.name,
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .fillMaxWidth()
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -59,5 +64,12 @@ fun PlanetItem(
 @Preview(showBackground = true)
 @Composable
 private fun PreviewPlanetItem() {
-    PlanetItem(planet = Planet(name = "Earth", climate = "Hot")) { }
+    PlanetItem(
+        planet = Planet(
+            name = "Earth",
+            climate = "Hot",
+            orbitalPeriod = "32",
+            gravity = "1 standard"
+        )
+    ) { }
 }

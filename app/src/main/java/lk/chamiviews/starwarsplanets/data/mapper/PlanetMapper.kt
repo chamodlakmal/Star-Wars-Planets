@@ -7,12 +7,16 @@ fun PlanetDto.toPlanet(): Planet {
     return Planet(
         name = name,
         climate = climate,
+        orbitalPeriod = orbitalPeriod,
+        gravity = gravity
     )
 }
 
 fun Planet.toPlanetDto(): PlanetDto {
     return PlanetDto(
         name = name,
-        climate = climate
+        climate = climate,
+        orbitalPeriod = orbitalPeriod,
+        gravity = gravity
     )
 }

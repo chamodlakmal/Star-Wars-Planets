@@ -1,6 +1,11 @@
 package lk.chamiviews.starwarsplanets.data.model
 
-data class PlanetDto (
+import com.google.gson.annotations.SerializedName
+
+data class PlanetDto(
     val name: String,
-    val climate: String
+    val climate: String,
+    @SerializedName("orbital_period")
+    val orbitalPeriod: String,
+    val gravity: String
 )

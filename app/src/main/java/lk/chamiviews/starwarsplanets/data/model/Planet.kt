@@ -8,5 +8,7 @@ data class Planet(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val climate: String
+    val climate: String,
+    val orbitalPeriod: String,
+    val gravity: String
 )

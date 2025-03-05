@@ -75,11 +75,6 @@ This application follows the Model-View-ViewModel (MVVM) architecture:
 - **View:** UI components built using Jetpack Compose.
 - **ViewModel:** Manages UI-related data and handles user interactions.
 
-## Acknowledgements
-
-- The SWAPI API team for providing comprehensive data on the Star Wars universe.
-- The Android development community for continuous support and resources.
-
 ## Contact
 
 For any inquiries or feedback, please contact [Chamod Lakmal](https://github.com/chamodlakmal).

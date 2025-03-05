@@ -40,6 +40,7 @@ To run this application locally:
 - **Coroutines:** For asynchronous programming.
 
 ## Folder Structure
+```
 Star-Wars-Planets/
 │-- app/
 │   │-- src/
@@ -55,6 +56,7 @@ Star-Wars-Planets/
 │-- build.gradle.kts            # Project-level Gradle configuration
 │-- settings.gradle.kts         # Gradle settings
 │-- README.md                   # Project documentation
+```
 
 ## Architecture
 

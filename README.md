@@ -12,7 +12,7 @@ A modern Android application developed using Kotlin and Jetpack Compose, designe
 
 ## Screenshots
 
-*Include screenshots of the app here to showcase its UI and functionality.*
+![Planet Detail Screen](https://github.com/user-attachments/assets/8c6e0d82-134b-4f95-b0da-fbf3cadf1bda)
 
 ## Installation
 

@@ -7,8 +7,9 @@ object PlanetListScreenArgs
 
 @Serializable
 data class PlanetDetailScreenArgs(
+    val index: Int,
     val name: String,
-    val gravity:String,
-    val orbitalPeriod:String,
-    val climate:String
+    val gravity: String,
+    val orbitalPeriod: String,
+    val climate: String
 )

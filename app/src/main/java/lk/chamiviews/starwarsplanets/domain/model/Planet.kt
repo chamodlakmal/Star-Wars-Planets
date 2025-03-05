@@ -3,6 +3,7 @@ package lk.chamiviews.starwarsplanets.domain.model
 import lk.chamiviews.starwarsplanets.data.model.PlanetDto
 
 data class Planet(
+    val index: Int = 0,
     val name: String,
     val climate: String,
     val orbitalPeriod: String,

@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
@@ -34,7 +34,7 @@ fun PlanetsScreen(
     isLoadingMore: Boolean,
     loadMoreStrategy: LoadMoreStrategy = LoadMoreStrategyImpl(),
     onEvent: (PlanetEvent) -> Unit,
-    navigateToPlanetDetails: (Planet) -> Unit
+    navigateToPlanetDetails: (index: Int, planet: Planet) -> Unit
 ) {
     Scaffold(topBar = {
         CommonTopAppBar(
@@ -50,7 +50,11 @@ fun PlanetsScreen(
                 is PlanetsState.Loading -> LoadingIndicator()
                 is PlanetsState.Success -> PlanetsList(
                     planets = (planetsState).planets,
-                    onPlanetSelected = { planet: Planet -> navigateToPlanetDetails(planet) },
+                    onPlanetClicked = { index: Int, planet: Planet ->
+                        navigateToPlanetDetails(
+                            index, planet
+                        )
+                    },
                     onEvent = onEvent,
                     isLoadingMore = isLoadingMore,
                     loadMoreStrategy = loadMoreStrategy
@@ -67,7 +71,7 @@ fun PlanetsScreen(
 @Composable
 fun PlanetsList(
     planets: List<Planet>,
-    onPlanetSelected: (Planet) -> Unit,
+    onPlanetClicked: (index: Int, planet: Planet) -> Unit,
     onEvent: (PlanetEvent) -> Unit,
     isLoadingMore: Boolean,
     loadMoreStrategy: LoadMoreStrategy = LoadMoreStrategyImpl()
@@ -77,8 +81,11 @@ fun PlanetsList(
     val listState = rememberLazyListState()
 
     LazyColumn(state = listState) {
-        items(planets) { planet ->
-            PlanetItem(planet = planet, onPlanetSelected = onPlanetSelected)
+        itemsIndexed(planets) { index, planet ->
+            PlanetItem(
+                index = index,
+                planet = planet,
+                onPlanetClicked = { onPlanetClicked(index, planet) })
         }
 
         if (isLoadingMore) {
@@ -141,5 +148,5 @@ private fun PlanetsScreenPreview() {
         isLoadingMore = false,
         loadMoreStrategy = LoadMoreStrategyImpl(),
         onEvent = {},
-        navigateToPlanetDetails = {})
+        navigateToPlanetDetails = { _, _ -> })
 }

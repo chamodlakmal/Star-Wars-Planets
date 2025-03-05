@@ -19,21 +19,22 @@ import lk.chamiviews.starwarsplanets.domain.model.Planet
 
 @Composable
 fun PlanetItem(
+    index: Int,
     planet: Planet,
-    onPlanetSelected: (Planet) -> Unit
+    onPlanetClicked: (Planet) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { onPlanetSelected(planet) }
+            .clickable { onPlanetClicked(planet) }
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CommonImageComponent(
-                url = "https://picsum.photos/640/480",
+                url = "https://picsum.photos/id/${index}/640/480",
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()
@@ -64,6 +65,6 @@ private fun PreviewPlanetItem() {
             climate = "Hot",
             orbitalPeriod = "32",
             gravity = "1 standard"
-        )
+        ), index = 1
     ) { }
 }

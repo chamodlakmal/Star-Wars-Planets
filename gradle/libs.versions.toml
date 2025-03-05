@@ -18,6 +18,9 @@ serialization = "1.6.3"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
+mockitoCore = "2.28.2"
+mockitoInline = "2.13.0"
+mockito-kotlin = "4.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +43,9 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -50,4 +56,5 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
 room = ["room-runtime", "room-ktx"]
+mockK = ["mockito-core", "mockito-inline", "mockito-kotlin"]
 

@@ -32,7 +32,7 @@ fun PlanetDetailsScreen(
                 .padding(16.dp)
         ) {
             CommonImageComponent(
-                url = "https://picsum.photos/720/1280",
+                url = "https://picsum.photos/id/${planet.index}/1280/720",
                 modifier = Modifier
                     .padding(bottom = 4.dp)
                     .fillMaxWidth()

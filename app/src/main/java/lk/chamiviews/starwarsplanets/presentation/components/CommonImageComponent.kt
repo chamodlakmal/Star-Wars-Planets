@@ -13,7 +13,7 @@ fun CommonImageComponent(modifier: Modifier = Modifier, url: String) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current).data(url)
             .placeholder(R.drawable.ic_planet_placeholder)
-            .error(R.drawable.ic_planet_error)
+            .error(R.drawable.ic_planet_placeholder)
             .build(),
         contentDescription = "planet image",
         modifier = modifier,

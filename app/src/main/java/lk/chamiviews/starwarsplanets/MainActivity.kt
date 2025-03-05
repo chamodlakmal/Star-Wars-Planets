@@ -38,13 +38,14 @@ class MainActivity : ComponentActivity() {
                             planetsState = planetsState,
                             isLoadingMore = isLoadingMore,
                             onEvent = planetsViewModel::planetEvent,
-                            navigateToPlanetDetails = {
+                            navigateToPlanetDetails = { index, planet ->
                                 navController.navigate(
                                     PlanetDetailScreenArgs(
-                                        name = it.name,
-                                        orbitalPeriod = it.orbitalPeriod,
-                                        gravity = it.gravity,
-                                        climate = it.climate
+                                        index = index,
+                                        name = planet.name,
+                                        orbitalPeriod = planet.orbitalPeriod,
+                                        gravity = planet.gravity,
+                                        climate = planet.climate
                                     )
                                 )
                             }
@@ -54,6 +55,7 @@ class MainActivity : ComponentActivity() {
                         val args = it.toRoute<PlanetDetailScreenArgs>()
                         PlanetDetailsScreen(
                             planet = Planet(
+                                index = args.index,
                                 name = args.name,
                                 orbitalPeriod = args.orbitalPeriod,
                                 gravity = args.gravity,

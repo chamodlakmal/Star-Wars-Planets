@@ -64,4 +64,5 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     kapt(libs.room.compiler)
     implementation(libs.bundles.room)
+    testImplementation(libs.bundles.mockK)
 }

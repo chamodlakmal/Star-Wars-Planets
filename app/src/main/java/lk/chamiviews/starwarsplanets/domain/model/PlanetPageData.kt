@@ -13,5 +13,3 @@ fun PlanetResponse.toPlanetPageData(): PlanetPageData {
         results = results.map { it.toPlanet() }
     )
 }
-
-

@@ -14,10 +14,12 @@ A modern Android application developed using Kotlin and Jetpack Compose, designe
 
 <table>
   <tr>
+    <th align="center"><b>Splash Screen</b></th>
     <th align="center"><b>Planet List Screen</b></th>
     <th align="center"><b>Planet Detail Screen</b></th>
   </tr>
   <tr>
+    <td><img src="https://github.com/chamodlakmal/Star-Wars-Planets/blob/main/screenshots/Splash%20Screen.png" width="400"></td>
     <td><img src="https://github.com/chamodlakmal/Star-Wars-Planets/blob/main/screenshots/Planet%20List.jpg" width="400"></td>
     <td><img src="https://github.com/chamodlakmal/Star-Wars-Planets/blob/main/screenshots/Planet%20Detail.jpg" width="400"></td>
   </tr>

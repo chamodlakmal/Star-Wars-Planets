@@ -109,8 +109,11 @@ class PlanetsViewModel @Inject constructor(
                     error.message ?: "No network connection available"
                 )
 
-                is RemoteDataSourceException -> PlanetsState.Error(error.localizedMessage ?: "Unknown error")
-                else -> PlanetsState.Error(error.localizedMessage ?: "")
+                is RemoteDataSourceException -> PlanetsState.Error(
+                    error.message ?: "Unknown error"
+                )
+
+                else -> PlanetsState.Error(error.message ?: "")
             }
         }
     }

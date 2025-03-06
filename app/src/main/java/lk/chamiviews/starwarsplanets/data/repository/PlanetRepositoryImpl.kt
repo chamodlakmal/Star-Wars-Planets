@@ -76,5 +76,4 @@ class PlanetRepositoryImpl @Inject constructor(
         return url.trimEnd('/').split("/").last().toInt()
     }
 
-
 }

@@ -9,6 +9,7 @@ A modern Android application developed using Kotlin and Jetpack Compose, designe
 - **Planet Details:** Access comprehensive information about each planet, including name, orbitalPeriod, gravity.
 - **Offline Caching:** Enjoy uninterrupted access to previously viewed planets without an internet connection.
 - **Modern Android Practices:** Built with the latest Android development tools and libraries to ensure optimal performance and maintainability.
+- **Unit Test Coverage for Business Logic:** The app includes comprehensive unit tests to validate and ensure the correctness of the business logic.
 
 ## Screenshots
 

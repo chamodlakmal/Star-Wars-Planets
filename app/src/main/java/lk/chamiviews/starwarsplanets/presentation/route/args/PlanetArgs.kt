@@ -3,6 +3,9 @@ package lk.chamiviews.starwarsplanets.presentation.route.args
 import kotlinx.serialization.Serializable
 
 @Serializable
+object SplashScreenArgs
+
+@Serializable
 object PlanetListScreenArgs
 
 @Serializable

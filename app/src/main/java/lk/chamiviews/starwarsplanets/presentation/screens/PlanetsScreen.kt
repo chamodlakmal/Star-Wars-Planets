@@ -47,7 +47,7 @@ fun PlanetsScreen(
                 .padding(padding)
         ) {
             when (planetsState) {
-                is PlanetsState.Loading -> LoadingIndicator()
+                is PlanetsState.Loading -> LoadingIndicator(modifier = Modifier.fillMaxSize())
                 is PlanetsState.Success -> PlanetsList(
                     planets = (planetsState).planets,
                     onPlanetClicked = { index: Int, planet: Planet ->

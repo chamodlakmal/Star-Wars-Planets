@@ -14,8 +14,10 @@ import dagger.hilt.android.AndroidEntryPoint
 import lk.chamiviews.starwarsplanets.domain.model.Planet
 import lk.chamiviews.starwarsplanets.presentation.route.args.PlanetDetailScreenArgs
 import lk.chamiviews.starwarsplanets.presentation.route.args.PlanetListScreenArgs
+import lk.chamiviews.starwarsplanets.presentation.route.args.SplashScreenArgs
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetDetailsScreen
 import lk.chamiviews.starwarsplanets.presentation.screens.PlanetsScreen
+import lk.chamiviews.starwarsplanets.presentation.screens.SplashScreen
 import lk.chamiviews.starwarsplanets.presentation.viewmodel.PlanetsViewModel
 import lk.chamiviews.starwarsplanets.ui.theme.StarWarsPlanetsTheme
 
@@ -31,8 +33,15 @@ class MainActivity : ComponentActivity() {
                 val planetsState by planetsViewModel.planetsState.collectAsState()
                 val isLoadingMore by planetsViewModel.isLoadingMore.collectAsState()
                 NavHost(
-                    navController = navController, startDestination = PlanetListScreenArgs
+                    navController = navController, startDestination = SplashScreenArgs
                 ) {
+                    composable<SplashScreenArgs> {
+                        SplashScreen(onNavigateToPlanetsScreen = {
+                            navController.navigate(PlanetListScreenArgs) {
+                                popUpTo(SplashScreenArgs) { inclusive = true }
+                            }
+                        })
+                    }
                     composable<PlanetListScreenArgs> {
                         PlanetsScreen(
                             planetsState = planetsState,

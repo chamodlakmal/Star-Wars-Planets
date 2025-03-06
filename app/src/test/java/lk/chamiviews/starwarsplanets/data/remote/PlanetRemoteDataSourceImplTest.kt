@@ -45,9 +45,7 @@ class PlanetRemoteDataSourceImplTest {
             url = "https://swapi.dev/api/planets/1/"
         )
         val planetResponse = PlanetResponse(
-            count = 1,
             next = null,
-            previous = null,
             results = listOf(planetDto)
         )
 
@@ -58,7 +56,7 @@ class PlanetRemoteDataSourceImplTest {
         val result = planetRemoteDataSource.getPlanets().first()
 
         // Verify the result
-        assertEquals(planetResponse.count, result.count)
+        assertEquals(planetResponse.results[0].name, result.results[0].name)
         assertEquals(planetResponse.results, result.results)
 
         // Verify that the mock API method was called
@@ -75,9 +73,7 @@ class PlanetRemoteDataSourceImplTest {
             url = "https://swapi.dev/api/planets/4/"
         )
         val planetResponse = PlanetResponse(
-            count = 1,
             next = "nextPageUrl",
-            previous = null,
             results = listOf(planetDto)
         )
         val nextPageUrl = "nextPageUrl"
@@ -96,7 +92,7 @@ class PlanetRemoteDataSourceImplTest {
 
         val thrownException = assertFailsWith<NoNetworkException> {
             planetRemoteDataSource.getPlanets()
-                .first()  // Use first() to collect and assert failure
+                .first()
         }
 
         assertEquals(exception.message, thrownException.message)
@@ -111,7 +107,7 @@ class PlanetRemoteDataSourceImplTest {
 
         val thrownException = assertFailsWith<NoNetworkException> {
             planetRemoteDataSource.getNextPage(nextPageUrl)
-                .first()  // Use first() to collect and assert failure
+                .first()
         }
 
         assertEquals(exception.message, thrownException.message)
@@ -125,7 +121,7 @@ class PlanetRemoteDataSourceImplTest {
 
         val thrownException = assertFailsWith<RemoteDataSourceException> {
             planetRemoteDataSource.getPlanets()
-                .first()  // Use first() to collect and assert failure
+                .first()
         }
 
         assertEquals(exception.message, thrownException.message)
@@ -140,7 +136,7 @@ class PlanetRemoteDataSourceImplTest {
 
         val thrownException = assertFailsWith<RemoteDataSourceException> {
             planetRemoteDataSource.getNextPage(nextPageUrl)
-                .first()  // Use first() to collect and assert failure
+                .first()
         }
 
         assertEquals(exception.message, thrownException.message)

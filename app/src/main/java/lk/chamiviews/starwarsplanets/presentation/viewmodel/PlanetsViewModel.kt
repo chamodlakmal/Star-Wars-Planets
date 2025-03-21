@@ -8,6 +8,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import lk.chamiviews.starwarsplanets.domain.usecase.GetNextPageUseCase
@@ -60,45 +67,40 @@ class PlanetsViewModel @Inject constructor(
     }
 
     private fun fetchPlanets() {
-        viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-            _planetsState.update {
-                PlanetsState.Loading
-            }
-            getPlanetsUseCase().collect { result ->
-                result.onSuccess { response ->
-                    _planetsState.update {
-                        PlanetsState.Success(response.results)
-                    }
+        getPlanetsUseCase()
+            .flowOn(Dispatchers.IO)
+            .onStart { _planetsState.value = PlanetsState.Loading }
+            .map { result ->
+                result.getOrThrow().also { response ->
                     nextPageUrl = response.next
-                }.onFailure { error ->
-                    handleError(error)
-                }
+                }.results
             }
-
-        }
+            .catch { error -> handleError(error) }
+            .onEach { planets -> _planetsState.value = PlanetsState.Success(planets) }
+            .launchIn(viewModelScope)
     }
 
-
     private fun loadMorePlanets() {
-        if (!_isLoadingMore.value && nextPageUrl != null) {
-            _isLoadingMore.value = true
-            viewModelScope.launch(Dispatchers.IO + exceptionHandler) {
-                getNextPageUseCase(nextPageUrl!!).collect { result ->
-                    result.onSuccess { response ->
-                        val planets = response.results
-                        val currentPlanets =
-                            (_planetsState.value as? PlanetsState.Success)?.planets.orEmpty()
-                        _planetsState.update {
-                            PlanetsState.Success(currentPlanets + planets)
-                        }
-                        nextPageUrl = response.next
-                    }.onFailure { error ->
-                        handleError(error)
-                    }
-                    _isLoadingMore.value = false
-                }
+        if (_isLoadingMore.value || nextPageUrl == null) return
 
-            }
+        viewModelScope.launch {
+            getNextPageUseCase(nextPageUrl!!)
+                .map { result ->
+                    result.getOrThrow().also { response -> nextPageUrl = response.next }.results
+                }
+                .onStart { _isLoadingMore.value = true } // Set loading state before execution
+                .onCompletion {
+                    _isLoadingMore.value = false
+                } // Reset loading state after execution
+                .catch { error -> handleError(error) } // Handle errors
+                .flowOn(Dispatchers.IO) // Ensure Flow runs on IO dispatcher
+                .collect { newPlanets ->
+                    _planetsState.update { currentState ->
+                        val currentPlanets =
+                            (currentState as? PlanetsState.Success)?.planets.orEmpty()
+                        PlanetsState.Success(currentPlanets + newPlanets)
+                    }
+                }
         }
     }
 
